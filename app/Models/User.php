@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable
 {
@@ -24,6 +26,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function photoUrl(): string
+    {
+        if ($this->avatar_url && Storage::disk('public')->exists($this->avatar_url)) {
+            return Storage::url($this->avatar_url);
+        }
+
+        // Gravatar-style placeholder using initials
+        $initials = collect(explode(' ', $this->name))
+            ->map(fn($word) => strtoupper($word[0]))
+            ->take(2)
+            ->join('');
+
+        return "https://ui-avatars.com/api/?name={$initials}&background=2D6A4F&color=fff&size=80";
+    }
+
 
     public function profile()
     {

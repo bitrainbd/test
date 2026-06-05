@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('email2')->unique()->nullable();
             $table->string('phone');
-            $table->string('phone2')->nullable();
-            $table->string('username')->unique();
-            $table->string('password');
+            $table->string('password')->default('password');
             $table->enum('status', ['ACTIVE', 'INACTIVE', 'SUSPENDED', 'DEACTIVATED'])->default('ACTIVE');
             $table->string('avatar_url')->default('/volt/user.png');
             $table->date('dob')->nullable();

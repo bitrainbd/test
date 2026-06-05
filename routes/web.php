@@ -4,8 +4,14 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\ExcelImportController;
 use App\Http\Controllers\Backend\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/import',        [ExcelImportController::class, 'index'])->name('import.get');
+Route::post('/import', [ExcelImportController::class, 'import'])->name('import.post');
+Route::delete('/clear', [ExcelImportController::class, 'clear'])->name('import.clear');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [AuthController::class, 'loginGet'])->name('login.get');
